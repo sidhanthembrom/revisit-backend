@@ -135,3 +135,20 @@ app.get("/categories", middleWare, async (req, res) => {
   }
 });
 
+// OPTIONAL APIs
+// adding new category
+app.post("/add", middleWare, async (req, res) => {
+  const { categoryName, itemCount, imgUrl } = req.body;
+
+  const insertQuery = `
+        insert into categories (name, item_count, image_url)
+        values("${categoryName}", ${itemCount}, "${imgUrl}")
+        `;
+  try {
+    await db.run(insertQuery);
+    res.status(200).json({ message: "Successfully added" });
+  } catch (error) {
+    console.log(error);
+  }
+});
+

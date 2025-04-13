@@ -7,21 +7,3 @@
 (Valid for 7 days)
 jwt_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNzQ0NDQzMTU0LCJleHAiOjE3NDUwNDc5NTR9.QQhUIEZ-2X_zKlp_TbJjz74N2v5pJkGyL9_vIjtQM4s
 
-
-// OPTIONAL APIs
-// adding new category
-app.post("/add", async (req, res) => {
-  const insertQuery = `
-        insert into categories (name, item_count, image_url)
-        values("Hats", 26, "https://images.unsplash.com/photo-1518061124653-4b85d51931f1?q=80&w=2938&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")
-        `;
-  try {
-    await db.run(insertQuery);
-    res.send("Successfully added");
-    console.log("Successfully added");
-  } catch (error) {
-    console.log(error);
-  }
-});
-
-// editing category
