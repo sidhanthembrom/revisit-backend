@@ -50,7 +50,7 @@ app.post("/signup", async (req, res) => {
     const dbResponse = await db.get(sqlQuery);
 
     if (dbResponse !== undefined) {
-      res.status(400).send("Username exists");
+      res.status(400).send({ message: "Username exists" });
     } else {
       const hashedPwd = await bcrypt.hash(password, 10);
       const query = `
@@ -89,11 +89,11 @@ app.post("/login", async (req, res) => {
         res.send({ jwt_token: token });
       } else {
         //   password is wrong
-        res.status(404).send("Check your password");
+        res.status(404).send({ message: "Check your password" });
       }
     } else {
       //   username is wrong
-      res.status(404).send("Check your username");
+      res.status(404).send({ message: "Check your username" });
     }
   } catch (error) {
     res.status(500).send(error);
@@ -106,12 +106,14 @@ const middleWare = (req, res, next) => {
 
   //   check if authHeader is empty
   if (authHeader === undefined) {
-    return res.status(401).send("No Authorization Header Available");
+    return res
+      .status(401)
+      .send({ message: "No Authorization Header Available" });
   }
   const token = authHeader.split(" ")[1];
   jwt.verify(token, my_secret_key, (err, payload) => {
     if (err) {
-      res.status(401).send("Unauthorized");
+      res.status(401).send({ message: "Unauthorized" });
     } else {
       next();
     }
@@ -132,3 +134,4 @@ app.get("/categories", middleWare, async (req, res) => {
     res.status(500).send(error);
   }
 });
+
